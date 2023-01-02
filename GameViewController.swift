@@ -1,46 +1,54 @@
 //
 //  GameViewController.swift
-//  SpaceShooter
+//  SS Game
 //
-//  Created by Cristian Macovei on 12.12.17.
-//  Copyright © 2017 Cristian Macovei. All rights reserved.
+//  Created by Cristian Macovei on 02.12.2022.
 //
 
 import UIKit
 import SpriteKit
 import GameplayKit
 
-@available(iOS 10.0, *)
-class GameViewController: UIViewController{
-    
+
+
+class GameViewController: UIViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        
-        // Load 'GameScene.sks' as a GKScene. This provides gameplay related content
-        // including entities and graphs.
-        let scene = GameScene(size: CGSize(width: 1536, height: 2048))
+        //Load GameScene.sks as a GKScene. This provides gameplay relateed content including entities and graphs
+        let scene = GameScene(size: CGSize(width: self.view.bounds.width, height: self.view.bounds.height))
         
         //Configure the view
-        let skView = self.view as! SKView
+        let view = self.view as! SKView
         
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+        view.showsFPS = true
+        view.showsNodeCount = true
         
         //Rendering improvements by SpriteKit
-        skView.ignoresSiblingOrder = true
+        view.ignoresSiblingOrder = true
         
-        //Set the scale mode to scale to fit windows
+        //Set scale mode to fit window
         scene.scaleMode = .aspectFill
+        view.presentScene(scene)
         
-        skView.presentScene(scene)
         
-        
-    }
-
-    override var shouldAutorotate: Bool {
-        return true
+        if let view = self.view as! SKView? {
+            // Load the SKScene from 'GameScene.sks'
+            if let scene = SKScene(fileNamed: "GameScene") {
+                // Set the scale mode to scale to fit the window
+                scene.scaleMode = .aspectFill
+                
+                // Present the scene
+                view.presentScene(scene)
+            }
+            
+            view.ignoresSiblingOrder = true
+            
+            view.showsFPS = true
+            view.showsNodeCount = true
+        }
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -50,14 +58,8 @@ class GameViewController: UIViewController{
             return .all
         }
     }
-    
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
 
     override var prefersStatusBarHidden: Bool {
-        return false
+        return true
     }
 }
